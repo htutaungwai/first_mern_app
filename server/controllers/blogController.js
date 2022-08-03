@@ -1,10 +1,6 @@
 const Blog = require("../models/Blog");
 const colors = require("colors");
 
-//  @desc   Get all blog by user id
-//  @route  '/api/blogs
-// @access   Private
-
 const getBlogs = async (req, res, next) => {
   try {
     const blogs = await Blog.find({ user: req.user.id });

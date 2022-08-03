@@ -8,7 +8,6 @@ const colors = require("colors");
 //  @acess Public
 const registerUser = async (req, res) => {
   try {
-    console.log("hello");
     const { firstName, lastName, email, password } = req.body;
     let toasts = [];
 
@@ -107,7 +106,7 @@ const loginUser = async (req, res) => {
     if (!isMatch)
       return res
         .status(400)
-        .jons([{ message: "Invalid crdentials", type: "error" }]);
+        .json([{ message: "Invalid crdentials", type: "error" }]);
 
     const payload = {
       user: {
