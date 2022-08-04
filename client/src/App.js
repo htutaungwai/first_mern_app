@@ -1,24 +1,48 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
 
+//  #region ----------[ Import Components ]----------
+import {
+  Home,
+  BlogDetails,
+  Blogs,
+  Login,
+  NewBlog,
+  PrivateRoute,
+  Profile,
+  Register,
+} from "./pages/index";
+
+// Libraries
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import BlogList from "./pages/BlogList";
+import "./App.css";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+
+          <Route path="/login" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route path="/profile" element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+
+          <Route path="/blogs" element={<PrivateRoute />}>
+            <Route path="/blogs" element={<BlogList />} />
+          </Route>
+
+          <Route path="/blogs/:id" element={<PrivateRoute />}>
+            <Route path="/blogs/:id" element={<BlogDetails />} />
+          </Route>
+
+          <Route path="/newblog" element={<PrivateRoute />}>
+            <Route path="/newblog" element={<BlogList />} />
+          </Route>
+        </Routes>
+      </Router>
     </div>
   );
 }
