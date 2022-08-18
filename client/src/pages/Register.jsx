@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Box,
   Grid,
@@ -11,15 +12,22 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import Copyright from "../components/Copyright";
 
 //  #region ----------------[ ICONS ]--------------
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
-const Register = () => {
-  const navigate = useNavigate();
+//   #region ----------------[ CONTEXT HOOKS ]--------------
+import { useAuth } from "../middlewares/contextHooks";
+import { useEffect } from "react";
 
+const Register = () => {
+  const { registerUser, clearErrors, toasts, isAuthenticated } = useAuth();
+
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     firstName: "Peter",
     lastName: "Pan",
@@ -32,20 +40,35 @@ const Register = () => {
     confirmPassword: false,
   });
 
+  useEffect(() => {
+    if (isAuthenticated) navigate("/blogs");
+    if (toasts) {
+      console.log(toasts);
+      toasts.forEach((ele) => {
+        toast(ele.message, {
+          type: ele.type,
+        });
+      });
+    }
+  }, [toasts, isAuthenticated, clearErrors]);
+
   const handleRegister = () => {
     const { firstName, lastName, email, password, confirmPassword } = user;
 
-    if ((!firstName || !lastName || !email || !password, confirmPassword)) {
-      alert("Please fill all fields");
+    if (
+      (!firstName || !lastName || !email || !password,
+      !confirmPassword || firstName === "" || lastName === "" || email === "")
+    ) {
+      toast("Please fill all fields", { type: "error" });
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast("Passwords do not match", { type: "error" });
       return;
     }
 
-    alert("Registration successful");
+    registerUser({ firstName, lastName, email, password });
   };
 
   return (
@@ -92,7 +115,7 @@ const Register = () => {
 
           <Grid item xs={12}>
             <TextField
-              label="Last Name"
+              label="Email"
               placeholder="Enter your email"
               value={user.email}
               onChange={(e) => {
@@ -188,6 +211,8 @@ const Register = () => {
           </Grid>
         </Grid>
       </Box>
+
+      <Copyright sx={{ mt: 4, mb: 2 }} />
     </Container>
   );
 };

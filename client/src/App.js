@@ -1,4 +1,9 @@
 import React from "react";
+// Libraries
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import BlogList from "./pages/BlogList";
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 //  #region ----------[ Import Components ]----------
 import {
@@ -11,11 +16,19 @@ import {
   Profile,
   Register,
 } from "./pages/index";
+import { ToastContainer, Zoom, Slide, Bounce, Flip } from "react-toastify";
 
-// Libraries
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import BlogList from "./pages/BlogList";
-import "./App.css";
+//    #region ---------------[ANIMATION ZONE]-----------------------
+function transitionAnimation() {
+  const list = [Zoom, Slide, Bounce, Flip];
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function transitionPostion() {
+  const list = ["top-right", "top-center", "top-left"];
+  return list[Math.floor(Math.random() * list.length)];
+}
+
 function App() {
   return (
     <div className="App">
@@ -23,7 +36,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
 
-          <Route path="/login" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
           <Route path="/profile" element={<PrivateRoute />}>
@@ -43,6 +56,18 @@ function App() {
           </Route>
         </Routes>
       </Router>
+
+      <ToastContainer
+        position={transitionPostion()}
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

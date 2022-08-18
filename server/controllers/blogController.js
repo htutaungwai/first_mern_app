@@ -53,6 +53,7 @@ const deleteBlog = async (req, res) => {
       _id: req.params.id,
       user: req.user.id,
     });
+    console.log(blog);
     if (!blog) {
       res.status(400).json([
         {
@@ -62,9 +63,12 @@ const deleteBlog = async (req, res) => {
       ]);
       return;
     }
-    res
-      .status(200)
-      .json([{ message: "Blog deleted", type: "success", blog: blog }]);
+    res.status(200).json([
+      {
+        blogId: req.params.id,
+        toasts: [{ message: "Blog deleted", type: "success" }],
+      },
+    ]);
   } catch (error) {
     console.error(`Error: ${error.message}`.bgRed.underline.bold);
     res.status(500).send("Server Error");

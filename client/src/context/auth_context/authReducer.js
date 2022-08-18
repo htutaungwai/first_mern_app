@@ -10,6 +10,7 @@ export default (state, action) => {
         toasts: action.payload,
         currentUser: null,
         token: null,
+        isAuthenticated: false,
       };
     case ActionTypes.AUTH_ERROR:
       return {
@@ -23,10 +24,24 @@ export default (state, action) => {
         ...state,
         token: null,
         currentUser: null,
+        isAuthenticated: false,
       };
 
     case ActionTypes.REGISTER_SUCCESS:
+      localStorage.setItem("token", action.payload);
+      return {
+        ...state,
+        isAuthenticated: true,
+      };
+
     case ActionTypes.LOGIN_SUCCESS:
+      localStorage.setItem("token", action.payload);
+      return {
+        ...state,
+        isAuthenticated: true,
+      };
+
+    case ActionTypes.SET_CURRENT_USER:
       return {
         ...state,
         currentUser: action.payload,

@@ -7,7 +7,6 @@ const {
   loginUser,
   getProfile,
 } = require("../controllers/userControllers");
-const authMiddleware = require("../middleware/authMiddleware");
 
 router.post("/register", registerUser);
 

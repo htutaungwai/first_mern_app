@@ -8,7 +8,6 @@ const {
   updateBlog,
   deleteBlog,
 } = require("../controllers/blogController");
-const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/", [auth], getBlogs);
 router.post("/", [auth], createBlog);
